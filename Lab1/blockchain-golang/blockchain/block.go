@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 	"errors"
-	// "fmt"
+	"fmt"
 )
 
 type Block struct {
@@ -87,15 +87,15 @@ func UpdateTransactionData(blockchain *Blockchain, blockNumber, transactionIndex
 	blockchain.Blocks[blockNumber] = &blockCopy
 	return nil
 }
-// func printMai(block *Block){
-// 	fmt.Printf("Block Number: %d\n", block.BlockNumber)
-// 	fmt.Printf("Prev. hash: %x\n", block.PrevBlockHash)
-// 	fmt.Println("Transactions:")
-// 	for _, tx := range block.Transactions {
-// 		fmt.Printf("  - %s\n", string(tx.Data))
-// 	}
-// 	fmt.Printf("Hash: %x\n", block.Hash)
-// 	fmt.Printf("Timestamp: %d\n", block.Timestamp)
-// 	fmt.Printf("MerkleRoot: %x\n", block.MerkleRoot)
-// }
+func PrintBlock(block *Block){
+	fmt.Printf("Block Number: %d\n", block.BlockNumber)
+	fmt.Printf("Prev. hash: %x\n", block.PrevBlockHash)
+	fmt.Println("Transactions:")
+	for _, tx := range block.Transactions {
+		fmt.Printf("  - %s\n", string(tx.Data))
+	}
+	fmt.Printf("Hash: %x\n", block.Hash)
+	fmt.Printf("Timestamp: %d\n", block.Timestamp)
+	fmt.Printf("MerkleRoot: %x\n", block.MerkleRoot)
+}
 	

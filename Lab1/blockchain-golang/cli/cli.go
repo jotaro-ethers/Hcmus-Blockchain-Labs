@@ -1,7 +1,7 @@
-package clio
+package cli
 
 import (
-	// "os"
+	"os"
 	"github.com/urfave/cli"
 	"fmt"
 	"golang-blockchain/blockchain"
@@ -21,7 +21,7 @@ func Run() {
 			Name:"createblockchain" ,
 			Action: func (c *cli.Context )error {
 				bc = blockchain.NewBlockchain()
-				// blockchain.printMai(bc.Blocks[0])
+				blockchain.PrintBlock(bc.Blocks[0])
 				fmt.Println("Create Blockchain successfully")
 				return nil
 			},
@@ -29,6 +29,6 @@ func Run() {
 	
 	}
 	
-	// app.Run(os.Args)
+	app.Run(os.Args)
 
 }
