@@ -37,23 +37,18 @@ func NewMerkleNode(left, right *MerkleNode, data []byte) *MerkleNode {
 
 func NewMerkleTree(data [][]byte) *MerkleTree {
 	var nodes []MerkleNode
-
-	// Xử lý trường hợp số lượng nút lá là số lẻ
 	if len(data)%2 != 0 {
 		data = append(data, data[len(data)-1])
 	}
 
-	// Tạo nút lá cho mỗi dữ liệu
 	for _, dat := range data {
 		node := NewMerkleNode(nil, nil, dat)
 		nodes = append(nodes, *node)
 	}
 
-	// Xây dựng cây Merkle từ nút lá
 	for i := 0; i < len(data)/2; i++ {
 		var level []MerkleNode
 
-		// Duyệt qua từng cặp nút và tạo nút cha mới
 		for j := 0; j < len(nodes); j += 2 {
 			node := NewMerkleNode(&nodes[j], &nodes[j+1], nil)
 			level = append(level, *node)
@@ -61,8 +56,6 @@ func NewMerkleTree(data [][]byte) *MerkleTree {
 
 		nodes = level
 	}
-
-	// Nút cuối cùng là nút gốc của cây Merkle
 	tree := MerkleTree{&nodes[0]}
 
 	return &tree
@@ -76,7 +69,6 @@ func printMerkleNode(node *MerkleNode, level int, isLeft bool, isRoot bool) {
 
 	indent := strings.Repeat("  ", level)
 
-	// In thông tin của node
 	fmt.Printf("%s", indent)
 	if isLeft {
 		fmt.Print("├─ ")
@@ -85,7 +77,6 @@ func printMerkleNode(node *MerkleNode, level int, isLeft bool, isRoot bool) {
 	}
 	fmt.Printf("%s\n", hex.EncodeToString(node.Data))
 
-	// In các node con nếu tồn tại
 	if node.Left != nil || node.Right != nil {
 		printMerkleNode(node.Left, level+1, true, false)
 		printMerkleNode(node.Right, level+1, false, false)
