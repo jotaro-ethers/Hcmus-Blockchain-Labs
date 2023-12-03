@@ -101,6 +101,7 @@ func Run() {
 			}
 		case 7:
 			fmt.Println("Exiting...")
+			
 			os.Exit(0)
 		}	
 
