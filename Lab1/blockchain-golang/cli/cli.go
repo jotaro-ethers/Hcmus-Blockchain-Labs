@@ -2,8 +2,10 @@ package cli
 
 import (
 	"golang-blockchain/blockchain"
+	"strings"
 	"fmt"
 	"bufio"
+	"strconv"
 	"os"
 	"encoding/hex"
 
@@ -17,9 +19,14 @@ func Run() {
 		fmt.Println("##############################################")
 		fmt.Println("1. Create Blockchain \n2. Add Block \n3. Print Blockchain \n4. Update Transaction \n5. Print Merkle Tree \n6. Validate Block \n7. Exit")
 		
-		var choice int
-		fmt.Scan(&choice)
-		switch choice {
+		reader := bufio.NewReader(os.Stdin)
+		choice, _ := reader.ReadString('\n')
+		choice = strings.TrimSuffix(choice, "\r\n")
+		intchoice, err := strconv.Atoi(choice)
+		if err != nil {
+			panic(err)
+		}
+		switch intchoice {
 		case 1:
 			bc = blockchain.NewBlockchain()
 			blockchain.PrintBlock(bc.Blocks[0])
@@ -55,15 +62,17 @@ func Run() {
 				break
 			}
 			fmt.Printf("Enter Block Number: ")
-			var blockNumber int
-			fmt.Scan(&blockNumber)
+			scanner.Scan()
+			blockNumber := scanner.Text()
+			intblockNumber, _ := strconv.Atoi(blockNumber)
 			fmt.Printf("Enter Transaction Number: ")
-			var transactionNumber int
-			fmt.Scan(&transactionNumber)
+			scanner.Scan()
+			transactionNumber := scanner.Text()
+			inttransactionNumber, _ := strconv.Atoi(transactionNumber)
 			fmt.Printf("Enter New Transaction Data :")
 			scanner.Scan()
 			input := scanner.Text()
-			blockchain.UpdateTransactionData(bc, blockNumber, transactionNumber-1, input)
+			blockchain.UpdateTransactionData(bc, intblockNumber, inttransactionNumber-1, input)
 			fmt.Println("Transaction Updated!")
 		case 5:
 			if len(bc.Blocks) == 0 {
@@ -71,26 +80,28 @@ func Run() {
 				break
 			}
 			fmt.Printf("Enter Block Number: ")
-			var blockNumber int
-			fmt.Scan(&blockNumber)
-			blockchain.PrintMerkleTree(bc.Blocks[blockNumber])
+			scanner.Scan()
+			blockNumber := scanner.Text()
+			intblockNumber, _ := strconv.Atoi(blockNumber)
+			blockchain.PrintMerkleTree(bc.Blocks[intblockNumber])
 		case 6:
 			if len(bc.Blocks) == 0 {
 				fmt.Println("Create Blockchain first!")
 				break
 			}
 			fmt.Printf("Enter Block Number: ")
-			var blockNumber int
-			fmt.Scan(&blockNumber)
-			block := bc.Blocks[blockNumber]
+			scanner.Scan()
+			blockNumber := scanner.Text()
+			intblockNumber, _ := strconv.Atoi(blockNumber)
+			block := bc.Blocks[intblockNumber]
 			if hex.EncodeToString(block.CalculateMerkleRoot()) == hex.EncodeToString(block.MerkleRoot) {
 				fmt.Println("Valid Block!")
 			}else {
 				fmt.Println("Invalid Block!")
 			}
 		case 7:
-			os.Exit(0)
 			fmt.Println("Exiting...")
+			os.Exit(0)
 		}	
 
 	}
