@@ -24,7 +24,8 @@ func Run() {
 		choice = strings.TrimSuffix(choice, "\r\n")
 		intchoice, err := strconv.Atoi(choice)
 		if err != nil {
-			panic(err)
+			choice = strings.TrimSuffix(choice, "\n")
+			intchoice, err = strconv.Atoi(choice)
 		}
 		switch intchoice {
 		case 1:
