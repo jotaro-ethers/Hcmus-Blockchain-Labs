@@ -17,14 +17,15 @@ func Run() {
 	scanner := bufio.NewScanner(os.Stdin)
 	for {
 		fmt.Println("##############################################")
-		fmt.Println("1. Create Blockchain \n2. Add Block \n3. Print Blockchain \n4. Update Transaction \n5. Print Merkle Tree \n6. Validate Block \n7. Exit")
+		fmt.Printf("1. Create Blockchain \n2. Add Block \n3. Print Blockchain \n4. Update Transaction \n5. Print Merkle Tree \n6. Validate Block \n7. Exit\n")
 		
 		reader := bufio.NewReader(os.Stdin)
 		choice, _ := reader.ReadString('\n')
 		choice = strings.TrimSuffix(choice, "\r\n")
 		intchoice, err := strconv.Atoi(choice)
 		if err != nil {
-			panic(err)
+			choice = strings.TrimSuffix(choice, "\n")
+			intchoice, err = strconv.Atoi(choice)
 		}
 		switch intchoice {
 		case 1:
@@ -101,7 +102,6 @@ func Run() {
 			}
 		case 7:
 			fmt.Println("Exiting...")
-			
 			os.Exit(0)
 		}	
 
